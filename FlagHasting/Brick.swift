@@ -8,6 +8,16 @@
 import Foundation
 import SwiftUI
 
+struct AppleImageView: View {
+    var body: some View {
+        Image(systemName: "globe")
+            .imageScale(.large)
+            .foregroundColor(.accentColor)
+            .frame(width: 30, height: 30)
+            .scaledToFit() // Maintain aspect ratio of the image
+    }
+}
+
 
 struct HumanView: View {
     var body: some View {
@@ -51,7 +61,18 @@ struct Pole: View {
 struct BrickView: View {
     @State private var humanPosition: CGPoint = CGPoint(x: 180, y: 585) // Initial position
     @State private var targetPosition: CGPoint = CGPoint(x: 180, y: 585) // Current target position
+   
+    let screenWidth: CGFloat
+    let screenHeight: CGFloat
     
+    @State private var appleImagePosition: CGPoint
+    @State private var showAppleImage: Bool = true
+    
+    init(screenWidth: CGFloat, screenHeight: CGFloat) {
+        self.screenWidth = screenWidth
+        self.screenHeight = screenHeight
+        _appleImagePosition = State(initialValue: CGPoint(x: 10, y: 600))
+    }
     
     private var brickWidth: CGFloat {
         UIScreen.main.bounds.width / 6 // Calculate brick width as 1/6 of the screen width
@@ -63,21 +84,44 @@ struct BrickView: View {
         let newY = targetPosition.y - 25 // 25 is brick height
         let humanXMove = screenWidth / 6 // Calculate brick width as 1/6 of the screen width
         let newX = targetPosition.x - (humanXMove/2)
-        
 
         if (newY < 500) {
             targetPosition = CGPoint(x: newX - 30 , y: newY + 25) // Move to 3rd layer
+            shiftGlobe()
         } else {
             targetPosition = CGPoint(x: newX , y: newY) // Move to 3rd layer
-
         }
         print(newX, newY)
     }
     
+    private func shiftGlobe() {
+        
+        // Animate the AppleImage to the top of the pole
+        withAnimation(.easeInOut(duration: 2.0)) {
+            appleImagePosition = CGPoint(
+                x: appleImagePosition.x,
+                y: appleImagePosition.y-(UIScreen.main.bounds.height/2))
+            // Adjust the position according to your needs
+            showAppleImage = false
+        }
+        
+//        // Delay the opening of the flag after AppleImage reaches the top of the pole
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//            // Perform any action or animation to open the flag here
+//            // You can display the Indian flag gif or perform any other animation
+//            // For the purpose of this example, let's just show a message indicating flag hoisting
+////            showAppleImage = false // Hide the AppleImage after the flag is hoisted
+//        }
+    }
     var body: some View {
         VStack(spacing: 0) {
             Spacer() // Add spacer to separate the layers
             
+            // AppleImage
+            AppleImageView()
+                .offset(x: appleImagePosition.x, y: appleImagePosition.y)
+                .animation(.easeInOut) // Add animation to the movement
+//                .opacity(showAppleImage ? 1 : 0) // Show the AppleImage only when it should move
             
             // Add the human view below the layers and set its position
             Image("human")
@@ -168,6 +212,7 @@ struct Brick: View {
 // Preview the BrickView with the correct layout
 struct BrickView_Previews: PreviewProvider {
     static var previews: some View {
-        BrickView()
+
+        BrickView(screenWidth: UIScreen.main.bounds.width, screenHeight: UIScreen.main.bounds.height)
     }
 }

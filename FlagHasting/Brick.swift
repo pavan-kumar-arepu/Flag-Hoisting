@@ -8,6 +8,18 @@
 import Foundation
 import SwiftUI
 
+struct IndianFlag: View {
+    var position: CGPoint
+    
+    var body: some View {
+        Image("IndiaFlag")
+            .resizable()
+            .frame(width: 100, height: 60) // Adjust the width and height to your desired size
+            .position(position) // Set the position of the Indian flag
+    }
+}
+
+
 struct AppleImageView: View {
     var body: some View {
         Image(systemName: "globe")
@@ -42,7 +54,7 @@ struct Triangle: Shape {
 struct Pole: View {
     var body: some View {
         let screenWidth = UIScreen.main.bounds.width
-        let poleWidth = screenWidth / 30 // Adjust the width of the pole
+        let poleWidth = screenWidth / 40 // Adjust the width of the pole
         let poleHeight = UIScreen.main.bounds.height / 1.8 // Adjust the height of the pole
         
         VStack(spacing: 0) {
@@ -62,11 +74,16 @@ struct BrickView: View {
     @State private var humanPosition: CGPoint = CGPoint(x: 180, y: 585) // Initial position
     @State private var targetPosition: CGPoint = CGPoint(x: 180, y: 585) // Current target position
    
+    @State private var showIndianFlag: Bool = false // Add this line to create the state variable
+    
+    @State private var showCrackers = false
+
+
     let screenWidth: CGFloat
     let screenHeight: CGFloat
     
     @State private var appleImagePosition: CGPoint
-    @State private var showAppleImage: Bool = true
+    @State private var showglobeImage: Bool = true
     
     init(screenWidth: CGFloat, screenHeight: CGFloat) {
         self.screenWidth = screenWidth
@@ -93,35 +110,53 @@ struct BrickView: View {
         }
         print(newX, newY)
     }
-    
+
     private func shiftGlobe() {
-        
         // Animate the AppleImage to the top of the pole
-        withAnimation(.easeInOut(duration: 2.0)) {
+        withAnimation(.easeInOut(duration: 4.0).delay(4.0)) {
             appleImagePosition = CGPoint(
                 x: appleImagePosition.x,
-                y: appleImagePosition.y-(UIScreen.main.bounds.height/2))
+                y: appleImagePosition.y - (UIScreen.main.bounds.height / 2))
             // Adjust the position according to your needs
-            showAppleImage = false
+            showglobeImage = true
         }
+    
         
-//        // Delay the opening of the flag after AppleImage reaches the top of the pole
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-//            // Perform any action or animation to open the flag here
-//            // You can display the Indian flag gif or perform any other animation
-//            // For the purpose of this example, let's just show a message indicating flag hoisting
-////            showAppleImage = false // Hide the AppleImage after the flag is hoisted
-//        }
+        // Delay the opening of the flag after AppleImage reaches the top of the pole
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            // Perform any action or animation to open the flag here
+            // You can display the Indian flag gif or perform any other animation
+            // For the purpose of this example, let's just show the IndianFlag view at the appleImagePosition
+            
+            // Assuming you have an @State variable to control the flag display
+            showglobeImage = false
+            showIndianFlag = true
+            showCrackers = true
+            
+//            if showCrackers {
+                // Create 10 instances of CustomCracker with random positions
+                ForEach(0..<10) { _ in
+                    CustomCracker()
+                        .offset(x: CGFloat.random(in: 0...(screenWidth - 100)),
+                                y: CGFloat.random(in: 0...(screenHeight - 100)))
+//                }
+            }
+        }
     }
+    
     var body: some View {
         VStack(spacing: 0) {
             Spacer() // Add spacer to separate the layers
+            
+            if showIndianFlag {
+                IndianFlag(position: CGPoint(x: appleImagePosition.x + brickWidth*4 - 20 , y: appleImagePosition.y + 40))
+            }
             
             // AppleImage
             AppleImageView()
                 .offset(x: appleImagePosition.x, y: appleImagePosition.y)
                 .animation(.easeInOut) // Add animation to the movement
-//                .opacity(showAppleImage ? 1 : 0) // Show the AppleImage only when it should move
+                .opacity(showglobeImage ? 1 : 0)
             
             // Add the human view below the layers and set its position
             Image("human")
@@ -172,8 +207,6 @@ struct BrickView: View {
     }
 }
 
-
-
 struct Brick: View {
     var body: some View {
         let screenWidth = UIScreen.main.bounds.width
@@ -212,7 +245,12 @@ struct Brick: View {
 // Preview the BrickView with the correct layout
 struct BrickView_Previews: PreviewProvider {
     static var previews: some View {
-
-        BrickView(screenWidth: UIScreen.main.bounds.width, screenHeight: UIScreen.main.bounds.height)
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color.blue, Color.white]),
+                           startPoint: .top,
+                           endPoint: .bottom)
+                           .edgesIgnoringSafeArea(.all)
+            BrickView(screenWidth: UIScreen.main.bounds.width, screenHeight: UIScreen.main.bounds.height)
+        }
     }
 }

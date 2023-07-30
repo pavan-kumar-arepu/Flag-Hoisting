@@ -12,6 +12,9 @@
 		0B69CDC92A7673C6000E8FBB /* Brick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B69CDC82A7673C6000E8FBB /* Brick.swift */; };
 		0B69CDCF2A76805A000E8FBB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B69CDCC2A768059000E8FBB /* ContentView.swift */; };
 		0B69CDD02A76805A000E8FBB /* FlagHastingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B69CDCD2A768059000E8FBB /* FlagHastingApp.swift */; };
+		0B69CDED2A76DEBA000E8FBB /* GifImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B69CDEC2A76DEBA000E8FBB /* GifImageLoader.swift */; };
+		0B69CDEF2A7705B9000E8FBB /* FireCracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B69CDEE2A7705B9000E8FBB /* FireCracker.swift */; };
+		0B69CDF12A7710BE000E8FBB /* SnowFlake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B69CDF02A7710BE000E8FBB /* SnowFlake.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +24,9 @@
 		0B69CDC82A7673C6000E8FBB /* Brick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brick.swift; sourceTree = "<group>"; };
 		0B69CDCC2A768059000E8FBB /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContentView.swift; path = ../../../../.Trash/ContentView.swift; sourceTree = "<group>"; };
 		0B69CDCD2A768059000E8FBB /* FlagHastingApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlagHastingApp.swift; sourceTree = "<group>"; };
+		0B69CDEC2A76DEBA000E8FBB /* GifImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifImageLoader.swift; sourceTree = "<group>"; };
+		0B69CDEE2A7705B9000E8FBB /* FireCracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireCracker.swift; sourceTree = "<group>"; };
+		0B69CDF02A7710BE000E8FBB /* SnowFlake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowFlake.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,9 +59,12 @@
 		0B69CDB72A746415000E8FBB /* FlagHasting */ = {
 			isa = PBXGroup;
 			children = (
+				0B69CDF02A7710BE000E8FBB /* SnowFlake.swift */,
+				0B69CDEC2A76DEBA000E8FBB /* GifImageLoader.swift */,
 				0B69CDC82A7673C6000E8FBB /* Brick.swift */,
 				0B69CDCC2A768059000E8FBB /* ContentView.swift */,
 				0B69CDCD2A768059000E8FBB /* FlagHastingApp.swift */,
+				0B69CDEE2A7705B9000E8FBB /* FireCracker.swift */,
 				0B69CDBC2A746418000E8FBB /* Assets.xcassets */,
 				0B69CDBE2A746418000E8FBB /* Preview Content */,
 			);
@@ -142,7 +151,10 @@
 			files = (
 				0B69CDD02A76805A000E8FBB /* FlagHastingApp.swift in Sources */,
 				0B69CDC92A7673C6000E8FBB /* Brick.swift in Sources */,
+				0B69CDF12A7710BE000E8FBB /* SnowFlake.swift in Sources */,
 				0B69CDCF2A76805A000E8FBB /* ContentView.swift in Sources */,
+				0B69CDED2A76DEBA000E8FBB /* GifImageLoader.swift in Sources */,
+				0B69CDEF2A7705B9000E8FBB /* FireCracker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,14 @@ import Foundation
 import SwiftUI
 
 
+struct HumanView: View {
+    var body: some View {
+        Image("human") // Make sure "human.png" is added to the asset catalog
+            .resizable()
+            .frame(width: 40, height: 80) // Adjust the size of the human image
+            .scaledToFill() // Maintain aspect ratio of the image
+    }
+}
 
 struct Triangle: Shape {
     func path(in rect: CGRect) -> Path {
@@ -20,7 +28,6 @@ struct Triangle: Shape {
         return path
     }
 }
-
 
 struct Pole: View {
     var body: some View {
@@ -42,10 +49,43 @@ struct Pole: View {
 }
 
 struct BrickView: View {
+    @State private var humanPosition: CGPoint = CGPoint(x: 180, y: 585) // Initial position
+    @State private var targetPosition: CGPoint = CGPoint(x: 180, y: 585) // Current target position
+    
+    
+    private var brickWidth: CGFloat {
+        UIScreen.main.bounds.width / 6 // Calculate brick width as 1/6 of the screen width
+    }
+
+    // Function to update the target position based on the current position
+    private func updateTargetPosition() {
+        let screenWidth = UIScreen.main.bounds.width
+        let newY = targetPosition.y - 25 // 25 is brick height
+        let humanXMove = screenWidth / 6 // Calculate brick width as 1/6 of the screen width
+        let newX = targetPosition.x - (humanXMove/2)
+        
+
+        if (newY < 500) {
+            targetPosition = CGPoint(x: newX - 30 , y: newY + 25) // Move to 3rd layer
+        } else {
+            targetPosition = CGPoint(x: newX , y: newY) // Move to 3rd layer
+
+        }
+        print(newX, newY)
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
-
             Spacer() // Add spacer to separate the layers
+            
+            
+            // Add the human view below the layers and set its position
+            Image("human")
+                .resizable()
+                .scaledToFit() // Keep the image with correct aspect ratio and small size
+                .frame(width: 60, height: 120) // Set the desired size of the human image
+                .offset(x: humanPosition.x, y: humanPosition.y)
+                .animation(.easeInOut) // Add animation to the movement
             
             Pole()
             
@@ -56,7 +96,6 @@ struct BrickView: View {
                     Brick()
                 }
             }
-
             
             // Second Layer of Bricks
             HStack(spacing: 0) {
@@ -65,7 +104,7 @@ struct BrickView: View {
                     Brick()
                 }
             }
-
+            
             // Second Layer of Bricks
             HStack(spacing: 0) {
                 //HalfBrick() // Add the HalfBrick at the beginning of the second layer
@@ -73,29 +112,23 @@ struct BrickView: View {
                     Brick()
                 }
             }
-
+            
             // First Layer of Bricks
             HStack(spacing: 0) {
                 ForEach(0..<6, id: \.self) { brickIndex in
                     Brick()
                 }
             }
-
         }
         .frame(maxHeight: .infinity) // Make sure the VStack occupies the full height
+        .onTapGesture {
+            updateTargetPosition() // Update the target position on each tap
+            humanPosition = targetPosition // Animate the human to the target position
+        }
     }
 }
 
-struct HalfBrick: View {
-    var body: some View {
-        let screenWidth = UIScreen.main.bounds.width
-        let brickW = screenWidth / 6 // Calculate brick width as 1/6 of the screen width
-        
-        Rectangle()
-            .fill(Color.blue) // Transparent background for half brick
-            .frame(width: brickW / 2, height: 25)
-    }
-}
+
 
 struct Brick: View {
     var body: some View {
@@ -133,24 +166,8 @@ struct Brick: View {
 }
 
 // Preview the BrickView with the correct layout
-//struct BrickView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ZStack {
-//                BrickView()
-//                // You can add more components or modify the stage layout here if needed.
-//        }
-//    }
-//}
-
-// Preview the BrickView with the correct layout
 struct BrickView_Previews: PreviewProvider {
     static var previews: some View {
-        ZStack {
-//            Pole()
-//                .offset(y: -UIScreen.main.bounds.height / 4)
-            BrickView()
-            // Position the pole above the center
-            // You can add more components or modify the stage layout here if needed.
-        }
+        BrickView()
     }
 }
